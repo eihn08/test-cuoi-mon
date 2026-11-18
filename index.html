@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexusBI Studio · AI Agent Làm Sạch, Kiểm Duyệt & Phân Tích Dữ Liệu Đa Chiều</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- TOP NAVIGATION BAR (DYNAMIC STUDIO HEADER) -->
+  <header class="studio-header no-print">
+    <div class="header-inner">
+      <div class="brand-cluster" onclick="app.switchWorkspaceView('ingest')">
+        <div class="brand-avatar">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div class="brand-meta">
+          <div class="brand-name">NexusBI Studio <span class="version-pill">AI Agent v3.0</span></div>
+          <div class="brand-sub">Chuyên viên Phân tích Dữ liệu &amp; Business Intelligence (Human-in-the-Loop)</div>
+        </div>
+      </div>
+
+      <!-- 4-Step Gated Progress Stepper -->
+      <div class="gated-stepper" id="headerStepper">
+        <button type="button" class="step-pill active" id="stepBtn1" onclick="app.goToStep(1)">
+          <span class="s-num">01</span>
+          <span>Kết nối &amp; Yêu cầu</span>
+        </button>
+        <i class="fa-solid fa-chevron-right step-sep"></i>
+        <button type="button" class="step-pill" id="stepBtn2" onclick="app.goToStep(2)">
+          <span class="s-num">02</span>
+          <span>Làm sạch &amp; Duyệt</span>
+        </button>
+        <i class="fa-solid fa-chevron-right step-sep"></i>
+        <button type="button" class="step-pill locked" id="stepBtn3" onclick="app.goToStep(3)">
+          <span class="s-num">🔒</span>
+          <span>Dashboard &amp; 7 Giai đoạn BI</span>
+        </button>
+        <i class="fa-solid fa-chevron-right step-sep"></i>
+        <button type="button" class="step-pill locked" id="stepBtn4" onclick="app.goToStep(4)">
+          <span class="s-num">🔒</span>
+          <span>Xuất 4 Báo cáo</span>
+        </button>
+      </div>
+
+      <!-- Right Actions -->
+      <div class="header-actions">
+        <button type="button" class="hdr-btn" onclick="app.toggleDarkMode()" title="Chuyển chế độ Sáng / Tối">
+          <i id="themeIcon" class="fa-solid fa-moon"></i>
+        </button>
+        <button type="button" class="hdr-btn" onclick="app.openSettingsModal()">
+          <i class="fa-solid fa-sliders"></i>
+          <span>Cài đặt AI</span>
+        </button>
+        <div class="export-dropdown-wrap">
+          <button type="button" class="hdr-btn hdr-btn-primary" onclick="app.toggleExportDropdown(event)">
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+            <span>Xuất 4 Đầu ra</span>
+            <i class="fa-solid fa-chevron-down" style="font-size:10px"></i>
+          </button>
+          <div class="export-dropdown-menu hidden" id="exportDropdownMenu">
+            <div class="dropdown-title">4 SẢN PHẨM BÀN GIAO CHUẨN BI</div>
+            <button type="button" onclick="app.exportCleanedExcel()">
+              <i class="fa-solid fa-file-excel text-emerald"></i>
+              <div>
+                <strong>1. Excel Dữ liệu sạch (.xls)</strong>
+                <small>Dữ liệu đã chuẩn hóa + Nhật ký làm sạch</small>
+              </div>
+            </button>
+            <button type="button" onclick="app.exportAnalysisExcel()">
+              <i class="fa-solid fa-chart-Simple text-blue"></i>
+              <div>
+                <strong>2. Excel Tổng hợp 5 Sheet (.xls)</strong>
+                <small>Từ điển, Thống kê mô tả, Pareto ABC &amp; Giải pháp</small>
+              </div>
+            </button>
+            <button type="button" onclick="app.exportDashboardHtml()">
+              <i class="fa-solid fa-display text-purple"></i>
+              <div>
+                <strong>3. Xuất Dashboard độc lập (.html)</strong>
+                <small>File web tương tác gửi lãnh đạo mở ngay</small>
+              </div>
+            </button>
+            <button type="button" onclick="app.exportWord10Sections()">
+              <i class="fa-solid fa-file-word text-indigo"></i>
+              <div>
+                <strong>4. Báo cáo Word 10 mục (.doc)</strong>
+                <small>Chuẩn 10 mục BI + Chuỗi Insight + Giải pháp</small>
+              </div>
+            </button>
+            <button type="button" onclick="app.openAuditModal()">
+              <i class="fa-solid fa-shield-halved text-amber"></i>
+              <div>
+                <strong>Nhật ký Kiểm duyệt (Audit Log)</strong>
+                <small>Lịch sử quyết định của Con người &amp; AI</small>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN STUDIO CONTAINER -->
+  <main class="studio-main">
+
+    <!-- ====================================================================
+         SCENE 1 (BƯỚC 01): KẾT NỐI ĐA NGUỒN, BỐI CẢNH & TRAO ĐỔI VỚI AI AGENT
+         ==================================================================== -->
+    <section id="viewIngest" class="studio-view active">
+      <!-- Intro Hero Banner -->
+      <div class="hero-strip">
+        <div class="hero-strip-left">
+          <span class="kicker-badge"><i class="fa-solid fa-wand-magic-sparkles"></i> TRỢ LÝ DỮ LIỆU &amp; BUSINESS INTELLIGENCE</span>
+          <h1>Biến dữ liệu thô thành <span class="text-gradient">Quyết định Kinh doanh</span> minh bạch</h1>
+          <p>Tiếp nhận đa nguồn (Excel, CSV, JSON, Google Sheets), tự động lập Từ điển dữ liệu, làm sạch qua <strong>2 cổng Con người kiểm duyệt (Human-in-the-Loop)</strong>, phân tích chuỗi <strong>DATA → INFORMATION → INSIGHT → DECISION</strong> và xuất 4 sản phẩm bàn giao trong một lần xử lý.</p>
+        </div>
+        <div class="hero-strip-stats">
+          <div class="mini-stat"><strong class="text-blue">7 Giai đoạn</strong><span>Chuẩn phân tích BI</span></div>
+          <div class="mini-stat"><strong class="text-emerald">2 Cổng Duyệt</strong><span>Con người kiểm soát</span></div>
+          <div class="mini-stat"><strong class="text-purple">4 Đầu ra</strong><span>Excel · HTML · Word</span></div>
+          <div class="mini-stat"><strong class="text-amber">100%</strong><span>Không tự bịa số liệu</span></div>
+        </div>
+      </div>
+
+      <!-- Main Step 1 Grid -->
+      <div class="ingest-grid">
+        <!-- Left Column: Multi-source Upload & Sample Picker -->
+        <div class="glass-card">
+          <div class="card-head">
+            <div class="card-head-title">
+              <span class="step-tag">Mục 1</span>
+              <h2>📤 Cổng Tiếp Nhận Dữ Liệu Đa Nguồn</h2>
+            </div>
+            <button type="button" class="btn-ghost-sm" onclick="app.openColumnMappingModal()">
+              <i class="fa-solid fa-table-columns"></i> Ghép cột &amp; Xem cấu trúc
+            </button>
+          </div>
+
+          <!-- Source Switcher Tabs -->
+          <div class="source-tabs">
+            <button type="button" class="src-tab active" id="srcTabFile" onclick="app.switchInputSource('file')">
+              <i class="fa-solid fa-file-excel"></i> File Excel / CSV / JSON
+            </button>
+            <button type="button" class="src-tab" id="srcTabGsheet" onclick="app.switchInputSource('gsheet')">
+              <i class="fa-solid fa-table"></i> Link Google Sheet
+            </button>
+            <button type="button" class="src-tab" id="srcTabPaste" onclick="app.switchInputSource('paste')">
+              <i class="fa-solid fa-paste"></i> Dán bảng / Lark JSON
+            </button>
+          </div>
+
+          <!-- Pane 1: File Dropzone -->
+          <div id="srcPaneFile" class="src-pane">
+            <label for="fileUploadInput" class="crystal-dropzone" id="dropZoneArea">
+              <div class="drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+              <div class="drop-title">Bấm chọn hoặc kéo thả File vào đây</div>
+              <div class="drop-sub">Hỗ trợ: <strong>Excel (.xlsx, .xls), CSV, TSV, JSON</strong> · Tự động kiểm tra cấu trúc &amp; báo lỗi nếu file hỏng</div>
+              <div class="active-file-chip" id="activeFileBadge">
+                <i class="fa-solid fa-circle-check text-emerald"></i>
+                <span id="activeFileNameText">Đang chọn: Mẫu 1 · Bán lẻ &amp; TMĐT Đa Kênh (32 dòng)</span>
+              </div>
+            </label>
+            <input type="file" id="fileUploadInput" accept=".csv,.tsv,.txt,.json,.xlsx,.xls" class="hidden" onchange="app.handleFileUpload(event)" />
+          </div>
+
+          <!-- Pane 2: Google Sheet Link -->
+          <div id="srcPaneGsheet" class="src-pane hidden">
+            <div class="input-inline-group">
+              <input type="text" id="gsheetUrlInput" class="studio-input" placeholder="Dán link Google Sheets (chế độ Bất kỳ ai có liên kết đều xem được)..." />
+              <button type="button" class="btn-primary-sm" onclick="app.importFromGoogleSheet()">
+                <i class="fa-solid fa-cloud-arrow-down"></i> Nạp Sheet
+              </button>
+            </div>
+            <p class="helper-note">💡 Hệ thống tự động trích xuất Spreadsheet ID và tải dữ liệu trực tiếp về bộ máy phân tích cục bộ.</p>
+          </div>
+
+          <!-- Pane 3: Paste Raw CSV / JSON -->
+          <div id="srcPanePaste" class="src-pane hidden">
+            <textarea id="rawPasteTextarea" rows="4" class="studio-input font-mono" placeholder="Dán dữ liệu CSV, TSV hoặc mảng JSON từ Lark Base / Clipboard vào đây..."></textarea>
+            <button type="button" class="btn-primary-sm mt-2" onclick="app.importFromPastedText()">
+              <i class="fa-solid fa-check"></i> Nạp dữ liệu vừa dán
+            </button>
+          </div>
+
+          <!-- 3 Curated Sample Scenarios (Learned from Reference Agent!) -->
+          <div class="sample-scenarios-box">
+            <div class="section-mini-label">HOẶC CHỌN NHANH 3 KỊCH BẢN DỮ LIỆU THỰC TẾ ĐỂ DEMO:</div>
+            <div class="sample-buttons-grid">
+              <button type="button" class="sample-btn active" id="sampleBtn_retail" onclick="app.loadSampleScenario('retail')">
+                <div class="s-icon bg-blue-soft"><i class="fa-solid fa-cart-shopping"></i></div>
+                <div class="s-info">
+                  <strong>Mẫu 1 · Bán lẻ &amp; TMĐT (Đầy đủ lỗi bẩn)</strong>
+                  <small>32 đơn hàng · Trùng mã, thiếu ô, sai ngày ISO, giá ngoại lai 999 triệu</small>
+                </div>
+              </button>
+
+              <button type="button" class="sample-btn" id="sampleBtn_hr" onclick="app.loadSampleScenario('hr')">
+                <div class="s-icon bg-amber-soft"><i class="fa-solid fa-users-gear"></i></div>
+                <div class="s-info">
+                  <strong>Mẫu 2 · Nhân sự &amp; Quỹ lương (Thiếu / Lệch)</strong>
+                  <small>16 nhân sự · Phòng ban viết lộn xộn (IT/cntt), lương âm, KPI vượt 100</small>
+                </div>
+              </button>
+
+              <button type="button" class="sample-btn" id="sampleBtn_marketing" onclick="app.loadSampleScenario('marketing')">
+                <div class="s-icon bg-purple-soft"><i class="fa-solid fa-bullhorn"></i></div>
+                <div class="s-info">
+                  <strong>Mẫu 3 · Marketing Đa kênh (Ranh giới &amp; ROAS)</strong>
+                  <small>13 chiến dịch · Kênh viết tắt (FB/fb_ads), chi phí âm, phân tích ROAS</small>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Inline Resubmit Error Box (Shown if user uploads an empty/broken file) -->
+          <div id="inlineResubmitAlert" class="resubmit-alert hidden">
+            <div class="resubmit-title">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>Cảnh báo Tiếp nhận: File không hợp lệ hoặc bị rỗng — Vui lòng gửi lại File!</span>
+            </div>
+            <p id="resubmitReasonText"></p>
+          </div>
+        </div>
+
+        <!-- Right Column: Business Context, Goal & AI Scope Clarification -->
+        <div class="glass-card">
+          <div class="card-head">
+            <div class="card-head-title">
+              <span class="step-tag tag-purple">Mục 2</span>
+              <h2>🏢 Bối Cảnh Doanh Nghiệp &amp; Trao Đổi Phạm Vi Với AI</h2>
+            </div>
+            <span class="badge-step">Bước 1 / 4</span>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="field-block">
+              <label>Trọng tâm phân tích (Analysis Goal):</label>
+              <select id="analysisGoalSelect" class="studio-input" onchange="app.updateAiScopeUnderstanding()">
+                <option value="comprehensive">✨ Toàn diện: Làm sạch + Cây KPI + Pareto ABC + Báo cáo 10 mục</option>
+                <option value="financial">💰 Thống kê Tài chính: Doanh thu, Chi phí &amp; Biên lợi nhuận</option>
+                <option value="pareto_vip">🏅 Phân hạng ABC: Khu vực / Khách hàng / Danh mục Ưu tiên</option>
+                <option value="anomaly_audit">🛡️ Kiểm toán Chất lượng Dữ liệu &amp; Phát hiện Ngoại lai IQR</option>
+              </select>
+            </div>
+            <div class="field-block">
+              <label>Chuyên viên BI kiểm duyệt &amp; ký duyệt:</label>
+              <input type="text" id="reviewerNameInput" class="studio-input" value="Nguyễn Phương Yến Nhi (Chuyên viên BI)" oninput="app.updateReviewerName(this.value)" />
+            </div>
+          </div>
+
+          <!-- Quick Domain Chips -->
+          <div class="domain-chips">
+            <button type="button" class="d-chip active" id="dChip_retail" onclick="app.applyDomainPreset('retail')">🛒 Bán lẻ &amp; TMĐT</button>
+            <button type="button" class="d-chip" id="dChip_b2b" onclick="app.applyDomainPreset('b2b')">🏭 Phân phối B2B</button>
+            <button type="button" class="d-chip" id="dChip_hr" onclick="app.applyDomainPreset('hr')">👥 Nhân sự &amp; Lương</button>
+            <button type="button" class="d-chip" id="dChip_marketing" onclick="app.applyDomainPreset('marketing')">📣 Marketing ROI</button>
+            <button type="button" class="d-chip" id="dChip_finance" onclick="app.applyDomainPreset('finance')">💰 Tài chính - Kế toán</button>
+          </div>
+
+          <div class="field-block">
+            <label>Bối cảnh doanh nghiệp &amp; Vấn đề trọng tâm cần giải quyết *:</label>
+            <textarea id="businessContextInput" rows="3" class="studio-input" oninput="app.updateAiScopeUnderstanding()">Doanh nghiệp Bán lẻ & TMĐT đa kênh: Cần kiểm tra và làm sạch dữ liệu đơn hàng (loại bỏ đơn trùng lặp, chuẩn hóa tỉnh thành Hà Nội/TP.HCM, xử lý số lượng âm & giá ngoại lai 999 triệu), sau đó phân tích doanh thu thuần, biên lợi nhuận gộp và xếp hạng Pareto ABC để đề xuất giải pháp cho Ban Giám đốc.</textarea>
+          </div>
+
+          <!-- AI Scope Review Box (Learned from Reference Agent!) -->
+          <div class="ai-clarify-box">
+            <div class="ai-clarify-head">
+              <span><i class="fa-solid fa-robot text-blue"></i> <strong>AI Agent Xác nhận Phạm vi Yêu cầu (Scope Understanding)</strong></span>
+              <button type="button" class="btn-link-xs" onclick="app.toggleClarifyQuestions()" id="btnToggleScopeQ">
+                Mở rộng 4 câu hỏi làm rõ ▾
+              </button>
+            </div>
+            <div class="ai-understand-summary" id="aiUnderstandSummaryBox"></div>
+
+            <div id="scopeQuestionsDrawer" class="scope-questions-grid hidden">
+              <div>
+                <label>1. Kỳ báo cáo cần tập trung:</label>
+                <input type="text" id="scopePeriodInput" class="studio-input-sm" value="Quý 1/2026 (Tháng 01 - Tháng 02/2026)" />
+              </div>
+              <div>
+                <label>2. Quyết định quản trị cần đưa ra:</label>
+                <input type="text" id="scopeDecisionInput" class="studio-input-sm" value="Tối ưu phân bổ nguồn lực theo khu vực &amp; danh mục sinh lời cao" />
+              </div>
+              <div>
+                <label>3. Chỉ số KPI ưu tiên số 1:</label>
+                <input type="text" id="scopeKpiInput" class="studio-input-sm" value="Doanh thu thuần (Net_Sales_VND) &amp; Lợi nhuận gộp (Profit_VND)" />
+              </div>
+              <div>
+                <label>4. Ngưỡng cảnh báo ngoại lai:</label>
+                <input type="text" id="scopeOutlierInput" class="studio-input-sm" value="IQR 1.5x &amp; chặn mọi giá trị âm vô lý" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Launch CTA Footer -->
+          <div class="ingest-action-bar">
+            <div class="ingest-ready-pills">
+              <span class="ready-pill"><i class="fa-solid fa-check"></i> Đã nạp dữ liệu nguồn</span>
+              <span class="ready-pill"><i class="fa-solid fa-check"></i> Đã xác lập mục tiêu BI</span>
+            </div>
+            <button type="button" class="btn-cta-launch" id="btnRunAgentPipeline" onclick="app.runAgentCleaningStage()">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Gửi Dữ Liệu Lên Xử Lý &amp; Làm Sạch (Sang Bước 2) →</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SCENE 2 & 3 (WORKSPACE CHÍNH): SIDEBAR TRÁI + KHÔNG GIAN LÀM SẠCH & PHÂN TÍCH
+         ==================================================================== -->
+    <section id="viewWorkspace" class="studio-view">
+      <div class="workspace-split">
+        <!-- LEFT SIDEBAR: QUICK RE-UPLOAD, HITL ALERTS & 4 DELIVERABLES -->
+        <aside class="ws-sidebar no-print">
+          <!-- Box 1: Quick Re-upload / Change Dataset -->
+          <div class="side-card">
+            <div class="side-card-head">
+              <span class="mac-dots"><i></i><i></i><i></i></span>
+              <strong>Nguồn Dữ Liệu Đang Mở</strong>
+            </div>
+            <div class="side-card-body">
+              <div class="current-ds-box">
+                <div class="ds-title" id="sideDatasetName">sample_retail_dirty.csv</div>
+                <div class="ds-meta" id="sideDatasetMeta">32 dòng gốc · 13 cột</div>
+              </div>
+              <label for="quickReuploadInput" class="side-dropzone">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Gửi lại File mới (Mọi định dạng)</span>
+              </label>
+              <input type="file" id="quickReuploadInput" accept=".csv,.tsv,.txt,.json,.xlsx,.xls" class="hidden" onchange="app.handleFileUpload(event)" />
+              <button type="button" class="btn-side-outline" onclick="app.switchWorkspaceView('ingest')">
+                ↺ Đổi mẫu dữ liệu / Sửa bối cảnh
+              </button>
+            </div>
+          </div>
+
+          <!-- Box 2: Smart Human-in-the-Loop Status & Conflict Alerts -->
+          <div class="side-card">
+            <div class="side-card-head">
+              <span>🛡️ <strong>Trạng Thái Kiểm Duyệt (HITL)</strong></span>
+            </div>
+            <div class="side-card-body space-y-2">
+              <div class="hitl-status-banner" id="sideHitlStatusBanner">
+                <i class="fa-solid fa-user-check"></i>
+                <div>
+                  <strong id="sideHitlStageTitle">Đang chờ Duyệt Bước 2</strong>
+                  <small id="sideHitlStageSub">Chuyên viên BI cần kiểm duyệt bảng dữ liệu sạch trước khi mở phân tích.</small>
+                </div>
+              </div>
+
+              <!-- Quick Conflict / Anomaly Resolution Card -->
+              <div class="hitl-anomaly-box" id="sideAnomalySummaryBox"></div>
+            </div>
+          </div>
+
+          <!-- Box 3: 4 SẢN PHẨM BÀN GIAO (DELIVERABLES) -->
+          <div class="side-card">
+            <div class="side-card-head">
+              <span>📦 <strong>4 Sản Phẩm Bàn Giao (Bước 4)</strong></span>
+            </div>
+            <div class="side-card-body space-y-2" id="sideDeliverablesList">
+              <div class="deliv-item">
+                <div class="deliv-item-top">
+                  <span>📗 <strong>1. Excel Dữ liệu sạch</strong></span>
+                </div>
+                <div class="deliv-item-btns">
+                  <button type="button" onclick="app.openPreviewModal('excel_clean')">👁️ Xem</button>
+                  <button type="button" class="dl-btn" onclick="app.exportCleanedExcel()">⬇️ Tải .xls</button>
+                </div>
+              </div>
+
+              <div class="deliv-item">
+                <div class="deliv-item-top">
+                  <span>📊 <strong>2. Excel Tổng hợp 5 Sheet</strong></span>
+                </div>
+                <div class="deliv-item-btns">
+                  <button type="button" onclick="app.openPreviewModal('excel_summary')">👁️ Xem</button>
+                  <button type="button" class="dl-btn" onclick="app.exportAnalysisExcel()">⬇️ Tải .xls</button>
+                </div>
+              </div>
+
+              <div class="deliv-item">
+                <div class="deliv-item-top">
+                  <span>🖥️ <strong>3. Dashboard BI Độc lập</strong></span>
+                </div>
+                <div class="deliv-item-btns">
+                  <button type="button" onclick="app.openPreviewModal('dashboard')">👁️ Xem</button>
+                  <button type="button" class="dl-btn" onclick="app.exportDashboardHtml()">⬇️ Tải .html</button>
+                </div>
+              </div>
+
+              <div class="deliv-item">
+                <div class="deliv-item-top">
+                  <span>📘 <strong>4. Báo cáo Word 10 mục</strong></span>
+                </div>
+                <div class="deliv-item-btns">
+                  <button type="button" onclick="app.openPreviewModal('word')">👁️ Xem</button>
+                  <button type="button" class="dl-btn" onclick="app.exportWord10Sections()">⬇️ Tải .doc</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- MAIN WORKSPACE CANVAS -->
+        <div class="ws-canvas">
+          <!-- Studio Pipeline Status Bar -->
+          <div class="ws-pipeline-bar no-print">
+            <div class="ws-tabs">
+              <button type="button" class="ws-tab active" id="wsTabClean" onclick="app.switchMainTab('clean')">
+                🧹 Bước 2: Làm sạch &amp; Kiểm duyệt Dữ liệu
+              </button>
+              <button type="button" class="ws-tab locked" id="wsTabDashboard" onclick="app.switchMainTab('dashboard')">
+                📊 Bước 3A: Dashboard &amp; Phân tích 7 Giai đoạn BI
+              </button>
+              <button type="button" class="ws-tab locked" id="wsTabReport10" onclick="app.switchMainTab('report10')">
+                📄 Bước 3B: Báo cáo 10 Mục Chuẩn Doanh Nghiệp
+              </button>
+            </div>
+            <div class="ws-status-text" id="wsStepperStatusText">
+              🧹 Đang ở Bước 2: Vui lòng kiểm tra kết quả làm sạch &amp; bấm "Duyệt bước này"
+            </div>
+          </div>
+
+          <!-- Unlocked Step 4 Banner (Appears when Step 3 is Approved!) -->
+          <div id="step4UnlockedBanner" class="step4-banner hidden no-print">
+            <div class="step4-banner-left">
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Bước 4 / 4 Đã Mở Khóa!</strong> Dữ liệu và Báo cáo Phân tích đã vượt qua 2 cổng kiểm duyệt của Chuyên viên BI. Tải ngay 4 sản phẩm bàn giao:</span>
+            </div>
+            <div class="step4-banner-btns">
+              <button type="button" onclick="app.exportCleanedExcel()">📗 1. Excel Sạch (.xls)</button>
+              <button type="button" onclick="app.exportAnalysisExcel()">📊 2. Excel Tổng hợp (.xls)</button>
+              <button type="button" onclick="app.exportDashboardHtml()">🖥️ 3. Dashboard (.html)</button>
+              <button type="button" class="btn-highlight" onclick="app.exportWord10Sections()">📘 4. Báo cáo Word 10 mục (.doc)</button>
+            </div>
+          </div>
+
+          <!-- ==============================================================
+               TAB PANE 1 (BƯỚC 2): LÀM SẠCH DỮ LIỆU, ĐỘ PHỦ & CỔNG DUYỆT #1
+               ============================================================== -->
+          <div id="paneClean" class="ws-pane active">
+            <!-- Stage 1 Intake & Data Dictionary Card -->
+            <div class="glass-card mb-4">
+              <div class="card-head">
+                <div class="card-head-title">
+                  <span class="step-tag">Giai đoạn 1 / 7</span>
+                  <h3>📋 Tiếp nhận, Kiểm tra Cấu trúc Sheet &amp; Từ điển Trường Dữ liệu (Data Dictionary)</h3>
+                </div>
+                <span class="badge-pill" id="dictSummaryBadge">1 Sheet · 13 Trường</span>
+              </div>
+              <div id="stage1DictionaryContent"></div>
+            </div>
+
+            <!-- Stage 2 Cleaning Rules & Before/After Metrics -->
+            <div class="glass-card mb-4">
+              <div class="card-head">
+                <div class="card-head-title">
+                  <span class="step-tag tag-emerald">Giai đoạn 2 / 7</span>
+                  <h3>🧹 Làm sạch Dữ liệu Minh bạch &amp; Đối chiếu Trước ➔ Sau Làm sạch</h3>
+                </div>
+                <div class="head-controls">
+                  <select id="cleanDateFilterSelect" class="studio-input-sm" onchange="app.renderCleanPreviewTable()">
+                    <option value="__ALL__">📅 Tất cả ngày / kỳ</option>
+                  </select>
+                  <button type="button" class="btn-primary-sm" onclick="app.reRunCleaningWithRules()">
+                    <i class="fa-solid fa-rotate"></i> Áp dụng lại quy tắc
+                  </button>
+                </div>
+              </div>
+
+              <!-- 6 Interactive Cleaning Rules -->
+              <div class="rules-grid-6">
+                <label class="rule-box">
+                  <input type="checkbox" id="rule_trim_synonym" checked />
+                  <div>
+                    <strong>1. Chuẩn hóa Chuỗi &amp; Đồng nghĩa</strong>
+                    <small>Cắt khoảng trắng, chuẩn hóa tên riêng &amp; gộp tỉnh thành/phòng ban/kênh viết tắt (HN/ha noi ➔ Hà Nội).</small>
+                  </div>
+                </label>
+                <label class="rule-box">
+                  <input type="checkbox" id="rule_dedup" checked />
+                  <div>
+                    <strong>2. Khử dòng trùng lặp (Deduplication)</strong>
+                    <small>Loại bỏ các bản ghi bị nhân bản khóa chính để tránh tính trùng doanh thu/chi phí.</small>
+                  </div>
+                </label>
+                <label class="rule-box">
+                  <input type="checkbox" id="rule_date_iso" checked />
+                  <div>
+                    <strong>3. Chuẩn hóa Ngày tháng ISO</strong>
+                    <small>Đưa mọi định dạng ngày về YYYY-MM-DD và nội suy các ngày sai lịch (vd: 2026-99-99).</small>
+                  </div>
+                </label>
+                <label class="rule-box">
+                  <input type="checkbox" id="rule_currency_num" checked />
+                  <div>
+                    <strong>4. Bóc tách Tiền tệ &amp; Kiểu số</strong>
+                    <small>Chuyển chuỗi chứa "VNĐ", "đ", dấu phẩy ngăn cách về số nguyên chuẩn để tính toán.</small>
+                  </div>
+                </label>
+                <label class="rule-box">
+                  <input type="checkbox" id="rule_impute_missing" checked />
+                  <div>
+                    <strong>5. Điền khuyết thiếu thông minh</strong>
+                    <small>Điền giá trị mặc định hợp lý cho ô trống (Chiết khấu = 0, Tên = Khách vãng lai, Trung vị).</small>
+                  </div>
+                </label>
+                <label class="rule-box">
+                  <input type="checkbox" id="rule_outlier_iqr" checked />
+                  <div>
+                    <strong>6. Kiểm soát Số âm &amp; Ngoại lai IQR</strong>
+                    <small>Đổi dấu số âm nhập nhầm (|x|) và cắt ngưỡng ngoại lai cực đại (999,999,999 ➔ Trung vị).</small>
+                  </div>
+                </label>
+              </div>
+
+              <!-- 4 Before -> After Comparison KPI Cards -->
+              <div class="compare-4-grid" id="cleanCompareKpis"></div>
+
+              <!-- Sub-tabs: Bảng xem trước sau làm sạch vs Nhật ký chi tiết từng ô đã sửa -->
+              <div class="inner-tabs-bar">
+                <button type="button" class="inner-tab active" id="innerTabCleanPreview" onclick="app.switchCleanSubTab('preview')">
+                  📋 Bảng dữ liệu sau làm sạch (Nhấp đúp vào ô để sửa tay trực tiếp)
+                </button>
+                <button type="button" class="inner-tab" id="innerTabDiffCells" onclick="app.switchCleanSubTab('diff')">
+                  🔍 Chi tiết từng dòng/ô đã làm sạch so với File gốc (<span id="diffTotalCountBadge">0</span>)
+                </button>
+                <button type="button" class="inner-tab" id="innerTabDescStats" onclick="app.switchCleanSubTab('stats')">
+                  📐 Giai đoạn 3: Thống kê Mô tả &amp; Độ phủ từng cột (Mean, Median, σ, Min→Max)
+                </button>
+              </div>
+
+              <div id="cleanSubPane_preview" class="clean-subpane">
+                <div class="table-meta-bar" id="cleanPreviewMetaText"></div>
+                <div class="table-scroll" id="cleanedPreviewTableWrap"></div>
+              </div>
+
+              <div id="cleanSubPane_diff" class="clean-subpane hidden">
+                <div class="table-scroll" id="diffLogTableWrap"></div>
+              </div>
+
+              <div id="cleanSubPane_stats" class="clean-subpane hidden">
+                <div class="table-scroll" id="descriptiveStatsTableWrap"></div>
+              </div>
+
+              <!-- 3 Categorized Cleaning Logs (Learned from Reference Agent!) -->
+              <div class="logs-3-grid">
+                <div class="log-mini-card log-pink">
+                  <div class="log-mini-head">🧹 1. Dòng trùng lặp đã loại bỏ</div>
+                  <div class="log-mini-body" id="dedupLogBox"></div>
+                </div>
+                <div class="log-mini-card log-amber">
+                  <div class="log-mini-head">⏱️ 2. Chuẩn hóa Ngày, Tiền tệ &amp; Danh mục</div>
+                  <div class="log-mini-body" id="formatLogBox"></div>
+                </div>
+                <div class="log-mini-card log-rose">
+                  <div class="log-mini-head">⚠️ 3. Điền khuyết &amp; Xử lý Ngoại lai IQR</div>
+                  <div class="log-mini-body" id="outlierLogBox"></div>
+                </div>
+              </div>
+
+              <!-- CỔNG KIỂM DUYỆT CON NGƯỜI #1 (BƯỚC 2 -> BƯỚC 3) -->
+              <div class="hitl-gate-card gate-blue" id="gate1ApprovalCard">
+                <div class="gate-top">
+                  <div class="gate-badge">2</div>
+                  <div class="gate-info">
+                    <div class="gate-kicker">🤖 NEXUSBI AGENT · CỔNG KIỂM DUYỆT DỮ LIỆU (CON NGƯỜI TỰ DUYỆT - BƯỚC 2 / 4)</div>
+                    <p>Dữ liệu đã được làm sạch minh bạch và kiểm tra độ phủ như trên. Bạn có thể nhấp đúp vào bảng để sửa tay bất kỳ ô nào, hoặc điều chỉnh quy tắc làm sạch. Nếu dữ liệu đã hợp lệ, hãy bấm <strong>"CÓ – Duyệt bước này"</strong> để mở khóa Bước 3 (Phân tích chuyên sâu 7 giai đoạn)!</p>
+                  </div>
+                </div>
+
+                <!-- Rework input if user clicks KHÔNG -->
+                <div id="gate1RejectDrawer" class="gate-reject-drawer hidden">
+                  <label>⚠️ Nhập yêu cầu làm sạch lại của Chuyên viên BI (Luồng "KHÔNG HỢP LỆ ➔ Quay lại làm sạch"):</label>
+                  <div class="input-inline-group">
+                    <input type="text" id="gate1RejectNote" class="studio-input" placeholder="VD: Không xóa dòng thiếu mà hãy điền trung vị, hoặc giữ nguyên chiết khấu..." />
+                    <button type="button" class="btn-primary-sm" onclick="app.submitGate1Rework()">
+                      🔄 Chạy Làm Sạch Lại Ngay
+                    </button>
+                  </div>
+                </div>
+
+                <div class="gate-actions">
+                  <button type="button" class="btn-gate-no" onclick="app.rejectGate1()">
+                    ✕ KHÔNG – Chưa hợp lệ (Yêu cầu làm sạch lại)
+                  </button>
+                  <button type="button" class="btn-gate-yes" onclick="app.approveGate1()">
+                    ✔ CÓ – Dữ liệu Hợp lệ (Duyệt Bước 2 &amp; Mở Bước 3 Phân tích Chuyên sâu) →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==============================================================
+               TAB PANE 2 (BƯỚC 3A): DASHBOARD KPI & PHÂN TÍCH 7 GIAI ĐOẠN BI
+               ============================================================== -->
+          <div id="paneDashboard" class="ws-pane hidden">
+            <!-- Top 1, Top 2 Priority Cards + Data Confidence Summary -->
+            <div class="priority-3-grid">
+              <div class="prio-card prio-gold">
+                <div class="prio-head">
+                  <span>🥇 NHÓM ĐÓNG GÓP SỐ #1</span>
+                  <span class="prio-score" id="top1ShareBadge">--%</span>
+                </div>
+                <div class="prio-body">
+                  <h3 id="top1GroupName">--</h3>
+                  <p id="top1GroupDesc">--</p>
+                </div>
+              </div>
+
+              <div class="prio-card prio-silver">
+                <div class="prio-head">
+                  <span>🥈 NHÓM ĐÓNG GÓP SỐ #2</span>
+                  <span class="prio-score" id="top2ShareBadge">--%</span>
+                </div>
+                <div class="prio-body">
+                  <h3 id="top2GroupName">--</h3>
+                  <p id="top2GroupDesc">--</p>
+                </div>
+              </div>
+
+              <div class="prio-card prio-summary">
+                <div class="prio-head">
+                  <span>✨ ĐỘ TIN CẬY &amp; BẰNG CHỨNG BI</span>
+                  <span class="prio-score" id="dataConfidenceBadge">100% Sạch</span>
+                </div>
+                <div class="prio-body">
+                  <div id="dashboardAlertChips" class="chip-cloud"></div>
+                  <div class="prio-foot">
+                    <span>Người duyệt dữ liệu:</span>
+                    <strong id="approvedByLabel">Chuyên viên BI</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full-Screen Executive KPI Dashboard Card -->
+            <div class="glass-card mb-4">
+              <div class="card-head">
+                <div>
+                  <span class="step-tag tag-purple">BƯỚC 3 / 4 · EXECUTIVE DASHBOARD</span>
+                  <h3 id="dashMainTitle">📊 Dashboard KPI Kinh Doanh &amp; Phân Tích Đa Chiều</h3>
+                  <p class="card-sub" id="dashSubtitle">Tổng hợp trực tiếp từ bộ dữ liệu sạch đã qua kiểm duyệt</p>
+                </div>
+                <div class="head-controls">
+                  <label class="ctrl-label">Chiều phân tích:</label>
+                  <select id="dashDimensionSelect" class="studio-input-sm" onchange="app.renderAllAnalytics()"></select>
+                  <label class="ctrl-label">Kỳ dữ liệu:</label>
+                  <select id="dashPeriodSelect" class="studio-input-sm" onchange="app.renderAllAnalytics()">
+                    <option value="__ALL__">Toàn kỳ</option>
+                  </select>
+                  <button type="button" class="btn-ghost-sm" onclick="app.toggleDashTitleEditor()">
+                    ✏️ Chỉnh tiêu đề
+                  </button>
+                </div>
+              </div>
+
+              <!-- Inline Title Editor -->
+              <div id="dashTitleEditorBox" class="inline-editor-bar hidden">
+                <input type="text" id="editDashTitleInput" class="studio-input-sm" placeholder="Nhập tiêu đề Dashboard mới..." />
+                <input type="text" id="editDashSubInput" class="studio-input-sm" placeholder="Nhập mô tả tóm tắt..." />
+                <button type="button" class="btn-primary-sm" onclick="app.saveDashTitleEditor()">Lưu ✓</button>
+              </div>
+
+              <!-- Executive Narrative Box -->
+              <div class="exec-summary-banner" id="execSummaryBanner"></div>
+
+              <!-- 4 Core Financial/Operational KPI Cards -->
+              <div class="kpi-4-grid" id="dash4KpisGrid"></div>
+
+              <!-- Profit Margin Bar -->
+              <div class="margin-strip" id="dashMarginStrip"></div>
+            </div>
+
+            <!-- Giai đoạn 4: Hệ thống 6 Biểu đồ Phân tích Chuyên nghiệp -->
+            <div class="glass-card mb-4">
+              <div class="card-head">
+                <div class="card-head-title">
+                  <span class="step-tag tag-amber">Giai đoạn 4 / 7</span>
+                  <h3>📈 Trực quan hóa Dữ liệu (Column · Line · Donut · Pareto 80/20 · Histogram · Biến động Kỳ)</h3>
+                </div>
+                <span class="badge-pill">Tự động nhận xét &amp; giải thích ý nghĩa kinh doanh</span>
+              </div>
+              <div class="charts-6-grid" id="biStage4ChartsGrid"></div>
+            </div>
+
+            <!-- Cây KPI & Mục tiêu Quản trị (MG Tree) + Phân hạng ABC -->
+            <div class="two-col-cards mb-4">
+              <div class="glass-card">
+                <div class="card-head">
+                  <div class="card-head-title">
+                    <span class="step-tag">Cây Quản trị</span>
+                    <h3>🌳 Cây KPI &amp; Mục tiêu Quản trị (MG Tree)</h3>
+                  </div>
+                </div>
+                <div id="kpiTreeContainer" class="kpi-tree-grid"></div>
+              </div>
+
+              <div class="glass-card">
+                <div class="card-head">
+                  <div class="card-head-title">
+                    <span class="step-tag tag-purple">Pareto ABC</span>
+                    <h3>🏅 Phân hạng ABC (Nhóm A Chủ lực · Nhóm B · Nhóm C)</h3>
+                  </div>
+                </div>
+                <div id="abcRankingContainer" class="abc-list"></div>
+              </div>
+            </div>
+
+            <!-- Giai đoạn 5: Phân tích Insight (DATA -> INFORMATION -> INSIGHT -> DECISION) -->
+            <div class="glass-card mb-4">
+              <div class="card-head">
+                <div class="card-head-title">
+                  <span class="step-tag tag-purple">Giai đoạn 5 / 7</span>
+                  <h3>💡 Phân tích Insight Chuẩn BI (DATA → INFORMATION → INSIGHT → DECISION)</h3>
+                </div>
+                <button type="button" class="btn-primary-sm" onclick="app.askAiForDeeperInsights()">
+                  <i class="fa-solid fa-robot"></i> AI Đào sâu Insight
+                </button>
+              </div>
+              <div id="biStage5InsightsList" class="insights-stack"></div>
+            </div>
+
+            <!-- Giai đoạn 6: Đề xuất Giải pháp Thực thi, Bộ phận Phụ trách & KPI -->
+            <div class="glass-card mb-4">
+              <div class="card-head">
+                <div class="card-head-title">
+                  <span class="step-tag tag-emerald">Giai đoạn 6 / 7</span>
+                  <h3>🎯 Đề xuất Giải pháp Thực thi, Bộ phận Phụ trách, KPI Đo lường &amp; Rủi ro</h3>
+                </div>
+                <span class="badge-pill">Action Plan</span>
+              </div>
+              <div class="table-scroll">
+                <table class="studio-table">
+                  <thead>
+                    <tr>
+                      <th>Thứ tự ưu tiên</th>
+                      <th>Vấn đề trọng tâm cần giải quyết</th>
+                      <th>Giải pháp thực thi cụ thể</th>
+                      <th>Bộ phận phụ trách</th>
+                      <th>KPI đo lường hiệu quả</th>
+                      <th>Rủi ro &amp; Điều kiện thực hiện</th>
+                    </tr>
+                  </thead>
+                  <tbody id="biStage6SolutionsBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- CỔNG ĐÁNH GIÁ KẾT QUẢ CON NGƯỜI #2 (BƯỚC 3 -> BƯỚC 4 XUẤT BÁO CÁO) -->
+            <div class="hitl-gate-card gate-amber" id="gate2ApprovalCard">
+              <div class="gate-top">
+                <div class="gate-badge badge-amber">3</div>
+                <div class="gate-info">
+                  <div class="gate-kicker">🤖 NEXUSBI AGENT · CỔNG ĐÁNH GIÁ KẾT QUẢ PHÂN TÍCH (CON NGƯỜI NGHIỆM THU - BƯỚC 3 / 4)</div>
+                  <p>Bạn hãy rà soát Dashboard KPI, 6 biểu đồ phân tích, chuỗi Insight <strong>DATA → DECISION</strong> và Bảng Giải pháp hành động. Nếu kết quả chưa sát kỳ vọng, bấm <strong>"KHÔNG – Điều chỉnh &amp; Phân tích lại"</strong>. Nếu đã đạt yêu cầu, hãy bấm <strong>"CÓ – Duyệt bước này"</strong> để mở khóa Bước 4 xuất đầy đủ 4 tệp Báo cáo (Word, Excel, HTML)!</p>
+                </div>
+              </div>
+
+              <!-- Rework drawer for Gate 2 -->
+              <div id="gate2RejectDrawer" class="gate-reject-drawer hidden">
+                <label>🔄 Nhập yêu cầu điều chỉnh &amp; phân tích lại (Luồng "KHÔNG ĐẠT ➔ Điều chỉnh &amp; Phân tích lại"):</label>
+                <div class="domain-chips mb-2">
+                  <button type="button" class="d-chip" onclick="app.setGate2ReworkPrompt('Tập trung phân tích nguyên nhân nhóm hạng C hiệu suất thấp và giải pháp cắt giảm chi phí')">Đào sâu nhóm hiệu suất thấp</button>
+                  <button type="button" class="d-chip" onclick="app.setGate2ReworkPrompt('Đánh giá tác động của chính sách chiết khấu tới biên lợi nhuận ròng')">Đánh giá chiết khấu &amp; lợi nhuận</button>
+                  <button type="button" class="d-chip" onclick="app.setGate2ReworkPrompt('Bổ sung kế hoạch hành động ngắn hạn 30 ngày cho bộ phận Kinh doanh & Marketing')">Thêm kế hoạch 30 ngày</button>
+                </div>
+                <div class="input-inline-group">
+                  <input type="text" id="gate2RejectNote" class="studio-input" placeholder="Nhập yêu cầu điều chỉnh góc nhìn phân tích hoặc bổ sung khuyến nghị..." />
+                  <button type="button" class="btn-primary-sm" onclick="app.submitGate2Rework()">
+                    ✨ Thực Hiện Phân Tích Lại Ngay
+                  </button>
+                </div>
+              </div>
+
+              <div class="gate-actions">
+                <button type="button" class="btn-gate-no" onclick="app.rejectGate2()">
+                  ✕ KHÔNG – Chưa đạt (Điều chỉnh &amp; Phân tích lại)
+                </button>
+                <button type="button" class="btn-gate-yes" onclick="app.approveGate2()">
+                  ✔ CÓ – Kết quả Đạt yêu cầu (Duyệt Bước 3 &amp; Mở Bước 4 Xuất 4 Báo cáo) →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==============================================================
+               TAB PANE 3 (BƯỚC 3B): BÁO CÁO 10 MỤC CHUẨN DOANH NGHIỆP
+               ============================================================== -->
+          <div id="paneReport10" class="ws-pane hidden">
+            <div class="glass-card">
+              <div class="card-head">
+                <div class="card-head-title">
+                  <span class="step-tag tag-purple">Giai đoạn 7 / 7</span>
+                  <h3>📄 Báo Cáo Phân Tích Nghiệp Vụ (BI Report) Chuẩn 10 Mục Trình Ban Giám Đốc</h3>
+                </div>
+                <div class="head-controls">
+                  <button type="button" class="btn-ghost-sm" onclick="app.copyReport10Text()">
+                    <i class="fa-solid fa-copy"></i> Sao chép nội dung
+                  </button>
+                  <button type="button" class="btn-primary-sm" onclick="app.exportWord10Sections()">
+                    <i class="fa-solid fa-file-word"></i> Tải Báo cáo Word (.doc)
+                  </button>
+                </div>
+              </div>
+              <div id="report10DocumentContainer" class="official-report-paper"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING AI BI ASSISTANT CHAT -->
+  <button type="button" class="chat-fab no-print" onclick="app.toggleChatPanel()">
+    <i class="fa-solid fa-comments"></i>
+    <span>Hỏi Trợ lý BI</span>
+  </button>
+
+  <section id="aiChatPanel" class="chat-panel hidden no-print">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <span class="chat-bot-avatar"><i class="fa-solid fa-robot"></i></span>
+        <div>
+          <strong>Trợ lý Phân tích NexusBI</strong>
+          <small>Hỏi đáp trực tiếp trên số liệu sạch của bạn</small>
+        </div>
+      </div>
+      <button type="button" class="chat-close" onclick="app.toggleChatPanel()">✕</button>
+    </div>
+    <div id="chatMessagesBox" class="chat-messages"></div>
+    <div class="chat-quick-chips">
+      <button type="button" onclick="app.sendQuickChat('Nhóm nào đóng góp doanh thu cao nhất?')">Top doanh thu?</button>
+      <button type="button" onclick="app.sendQuickChat('Tóm tắt kết quả làm sạch dữ liệu?')">Tóm tắt làm sạch?</button>
+      <button type="button" onclick="app.sendQuickChat('Đề xuất giải pháp quan trọng nhất?')">Giải pháp ưu tiên?</button>
+    </div>
+    <form class="chat-input-row" onsubmit="app.handleChatSubmit(event)">
+      <input type="text" id="chatUserInput" placeholder="Đặt câu hỏi về dữ liệu đang phân tích..." autocomplete="off" />
+      <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+  </section>
+
+  <!-- MODAL: XEM TRƯỚC KẾT QUẢ ĐẦU RA -->
+  <div id="previewModal" class="modal-backdrop hidden no-print">
+    <div class="modal-shell modal-xl">
+      <div class="modal-head">
+        <h3 id="previewModalTitle">👁️ Xem trước Sản phẩm Bàn giao</h3>
+        <div class="modal-head-btns">
+          <button type="button" class="btn-primary-sm" id="previewModalDownloadBtn">⬇️ Tải xuống ngay</button>
+          <button type="button" class="modal-close-btn" onclick="app.closeAllModals()">✕</button>
+        </div>
+      </div>
+      <div class="modal-body" id="previewModalBody"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: CÀI ĐẶT AI AGENT -->
+  <div id="settingsModal" class="modal-backdrop hidden no-print">
+    <div class="modal-shell">
+      <div class="modal-head">
+        <h3>⚙️ Cài đặt AI Agent &amp; Tham số Phân tích BI</h3>
+        <button type="button" class="modal-close-btn" onclick="app.closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body space-y-3">
+        <div class="field-block">
+          <label>Chế độ Bộ máy Phân tích (AI Engine Mode):</label>
+          <select id="cfg_aiProvider" class="studio-input">
+            <option value="local">⚡ Xử lý Nội bộ Chuẩn BI (Offline, Ổn định, Tức thì)</option>
+            <option value="gemini">✨ Google Gemini API (gemini-2.0-flash)</option>
+            <option value="openai">🤖 OpenAI API (gpt-4o-mini)</option>
+          </select>
+        </div>
+        <div class="field-block">
+          <label>API Key (Tùy chọn - Để trống sẽ tự động dùng Bộ máy BI Nội bộ):</label>
+          <input type="password" id="cfg_apiKey" class="studio-input" placeholder="Nhập Gemini hoặc OpenAI API Key..." />
+        </div>
+        <div class="field-block">
+          <label>Tên Model:</label>
+          <input type="text" id="cfg_modelName" class="studio-input" value="gemini-2.0-flash" />
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button type="button" class="btn-ghost-sm" onclick="app.closeAllModals()">Đóng</button>
+        <button type="button" class="btn-primary-sm" onclick="app.saveAiSettings()">Lưu Cài đặt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GHÉP CỘT & CẤU TRÚC BẢNG -->
+  <div id="columnMappingModal" class="modal-backdrop hidden no-print">
+    <div class="modal-shell modal-lg">
+      <div class="modal-head">
+        <h3>🗺️ Cấu trúc Trường Dữ liệu &amp; Tự động Nhận diện Vai trò BI</h3>
+        <button type="button" class="modal-close-btn" onclick="app.closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body" id="columnMappingBody"></div>
+      <div class="modal-foot">
+        <button type="button" class="btn-primary-sm" onclick="app.closeAllModals()">Đã hiểu ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: NHẬT KÝ KIỂM DUYỆT (AUDIT LOG) -->
+  <div id="auditModal" class="modal-backdrop hidden no-print">
+    <div class="modal-shell modal-lg">
+      <div class="modal-head">
+        <h3>🛡️ Nhật ký Kiểm duyệt Con người &amp; Truy vết Hệ thống (Audit Trail)</h3>
+        <button type="button" class="modal-close-btn" onclick="app.closeAllModals()">✕</button>
+      </div>
+      <div class="modal-body" id="auditModalBody"></div>
+      <div class="modal-foot">
+        <button type="button" class="btn-ghost-sm" onclick="app.closeAllModals()">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-stack"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

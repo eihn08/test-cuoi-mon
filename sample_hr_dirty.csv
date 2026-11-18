@@ -1,0 +1,17 @@
+Emp_ID,Join_Date,Full_Name,Department,Position,Location,Base_Salary,Bonus,Performance_Score,Working_Days,Status
+EMP-001,2024-03-15,  nguyễn thành long ,IT,Senior Backend Dev,Hà Nội,"35,000,000 VNĐ",5000000,92,22,Đang làm việc
+EMP-002,15/04/2024,Trần Minh Ngọc,Marketing,Digital Marketing Specialist,TP.HCM,18500000,2500000,88,22,Đang làm việc
+EMP-002,15/04/2024,Trần Minh Ngọc,Marketing,Digital Marketing Specialist,TP.HCM,18500000,2500000,88,22,Đang làm việc
+EMP-003,2024-05-10,Lê Văn Hùng,cntt,Data Analyst,ha noi,-24000000,3000000,95,21,Đang làm việc
+EMP-004,2024/06/01,,Sales,Account Executive,Đà Nẵng,15000000,,81,22,Đang làm việc
+EMP-005,2024-07-20,Phạm Thu Hà,Nhân sự,HR Generalist,TPHCM,16500000,1500000,85,20,Đang làm việc
+EMP-006,2024-13-45,Hoàng Gia Bảo,Công nghệ thông tin,AI Engineer,Hà Nội,42000000,8000000,97,22,Đang làm việc
+EMP-007,10-08-2024,Vũ Hoàng Yến,Tài chính,Chief Accountant,TP. Hồ Chí Minh,888888888,6000000,91,22,Đang làm việc
+EMP-008,2024-09-05,Đặng Tuấn Kiệt,Sales,Sales Manager,HÀ NỘI,"28,000,000đ",7500000,89,-22,Đang làm việc
+EMP-009,2024-10-12,Bùi Phương Thảo,mkt,Content Creator,TP.HCM,14500000,1200000,145,22,Đang làm việc
+EMP-010,2024-11-01,Ngô Quang Khải,IT,DevOps Engineer,Đà Nẵng,32000000,,90,22,Đang làm việc
+EMP-011,2025-01-15,Lý Thanh Thảo,Nhân sự,Talent Acquisition,Hà Nội,17500000,2000000,86,21,Đang làm việc
+EMP-012,20/01/2025,Trịnh Quốc Bảo,Sales,Key Account Manager,tp hcm,25000000,5500000,93,22,Đang làm việc
+EMP-013,2025-02-01,Phan Thanh Hải,Tài chính,Financial Analyst,Hà Nội,22000000,2500000,87,22,Đang làm việc
+EMP-014,2025-02-10,Đỗ Minh Châu,Marketing,Brand Manager,TP.HCM,"31,000,000 VNĐ",4500000,94,22,Đang làm việc
+EMP-015,2025-02-18,Lương Văn Can,IT,BI Specialist,Hà Nội,29500000,4000000,96,22,Đang làm việc

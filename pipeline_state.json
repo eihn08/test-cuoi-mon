@@ -1,0 +1,244 @@
+{
+  "logs": [
+    {
+      "time": "07:29:53 18/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: CÓ – ĐẠT YÊU CẦU (MỞ KHÓA BƯỚC 4)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu Dashboard & Báo cáo 10 mục. Đã mở khóa Bước 4 xuất 4 sản phẩm bàn giao.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-18 07:29:53"
+    },
+    {
+      "time": "07:29:49 18/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: CÓ – ĐẠT YÊU CẦU (MỞ KHÓA BƯỚC 4)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu Dashboard & Báo cáo 10 mục. Đã mở khóa Bước 4 xuất 4 sản phẩm bàn giao.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-18 07:29:49"
+    },
+    {
+      "time": "07:29:39 18/11/2026",
+      "stage": "CỔNG KIỂM DUYỆT #1: CÓ – DỮ LIỆU HỢP LỆ (MỞ BƯỚC 3)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã duyệt bảng dữ liệu sạch (30 dòng, chất lượng 100%). Mở khóa Bước 3 Phân tích chuyên sâu 7 giai đoạn.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-18 07:29:39"
+    },
+    {
+      "time": "07:29:26 18/11/2026",
+      "stage": "BƯỚC 2: LÀM SẠCH DỮ LIỆU (LẦN #1)",
+      "detail": "Đã chạy 6 quy tắc làm sạch trên \"sample_retail_dirty.csv\". Xử lý 57 lỗi, Điểm chất lượng tăng từ 66% ➔ 100%. Đang chờ Chuyên viên BI duyệt ở Cổng #1.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-18 07:29:26"
+    },
+    {
+      "time": "07:27:45 18/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: CÓ – ĐẠT YÊU CẦU (MỞ KHÓA BƯỚC 4)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu Dashboard & Báo cáo 10 mục. Đã mở khóa Bước 4 xuất 4 sản phẩm bàn giao.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-18 07:27:45"
+    },
+    {
+      "time": "07:27:23 18/11/2026",
+      "stage": "CỔNG KIỂM DUYỆT #1: CÓ – DỮ LIỆU HỢP LỆ (MỞ BƯỚC 3)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã duyệt bảng dữ liệu sạch (15 dòng, chất lượng 100%). Mở khóa Bước 3 Phân tích chuyên sâu 7 giai đoạn.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-18 07:27:23"
+    },
+    {
+      "time": "07:27:04 18/11/2026",
+      "stage": "BƯỚC 2: LÀM SẠCH DỮ LIỆU (LẦN #1)",
+      "detail": "Đã chạy 6 quy tắc làm sạch trên \"sample_hr_dirty.csv\". Xử lý 25 lỗi, Điểm chất lượng tăng từ 58% ➔ 100%. Đang chờ Chuyên viên BI duyệt ở Cổng #1.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-18 07:27:04"
+    },
+    {
+      "time": "07:25:17 18/11/2026",
+      "stage": "KHỞI ĐỘNG NEXUSBI STUDIO",
+      "detail": "Sẵn sàng tiếp nhận, làm sạch và phân tích dữ liệu BI 7 giai đoạn.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-18 07:25:17"
+    },
+    {
+      "time": "07:25:13 18/11/2026",
+      "stage": "KHỞI ĐỘNG NEXUSBI STUDIO",
+      "detail": "Sẵn sàng tiếp nhận, làm sạch và phân tích dữ liệu BI 7 giai đoạn.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-18 07:25:13"
+    },
+    {
+      "time": "22:54:10 17/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: CÓ – ĐẠT YÊU CẦU (MỞ KHÓA BƯỚC 4)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu Dashboard & Báo cáo 10 mục. Đã mở khóa Bước 4 xuất 4 sản phẩm bàn giao.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 22:54:10"
+    },
+    {
+      "time": "22:54:04 17/11/2026",
+      "stage": "CỔNG KIỂM DUYỆT #1: CÓ – DỮ LIỆU HỢP LỆ (MỞ BƯỚC 3)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã duyệt bảng dữ liệu sạch (15 dòng, chất lượng 100%). Mở khóa Bước 3 Phân tích chuyên sâu 7 giai đoạn.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 22:54:04"
+    },
+    {
+      "time": "22:53:59 17/11/2026",
+      "stage": "BƯỚC 2: LÀM SẠCH DỮ LIỆU (LẦN #1)",
+      "detail": "Đã chạy 6 quy tắc làm sạch trên \"sample_hr_dirty.csv\". Xử lý 25 lỗi, Điểm chất lượng tăng từ 58% ➔ 100%. Đang chờ Chuyên viên BI duyệt ở Cổng #1.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 22:53:59"
+    },
+    {
+      "time": "22:53:42 17/11/2026",
+      "stage": "BƯỚC 2: LÀM SẠCH DỮ LIỆU (LẦN #1)",
+      "detail": "Đã chạy 6 quy tắc làm sạch trên \"sample_retail_dirty.csv\". Xử lý 57 lỗi, Điểm chất lượng tăng từ 66% ➔ 100%. Đang chờ Chuyên viên BI duyệt ở Cổng #1.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 22:53:42"
+    },
+    {
+      "time": "22:53:08 17/11/2026",
+      "stage": "KHỞI ĐỘNG NEXUSBI STUDIO",
+      "detail": "Sẵn sàng tiếp nhận, làm sạch và phân tích dữ liệu BI 7 giai đoạn.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 22:53:08"
+    },
+    {
+      "time": "22:11:11 17/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: CÓ – ĐẠT YÊU CẦU (HOÀN TẤT)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu kết quả phân tích Dashboard & Báo cáo. Mở khóa xuất báo cáo Excel, Dashboard, Word.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 22:11:11"
+    },
+    {
+      "time": "22:11:08 17/11/2026",
+      "stage": "CỔNG KIỂM DUYỆT #1: CÓ – DỮ LIỆU HỢP LỆ",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã duyệt kết quả làm sạch (15 dòng sạch, chất lượng 100%). Chuyển sang Bước 4 Phân tích & Đánh giá kết quả.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 22:11:08"
+    },
+    {
+      "time": "22:11:05 17/11/2026",
+      "stage": "BƯỚC 2 & 3: LÀM SẠCH LẦN #1",
+      "detail": "Đã chạy tự động bộ quy tắc làm sạch trên file \"sample_hr_dirty.csv\". Xử lý 25 lỗi, Điểm chất lượng tăng từ 58% lên 100%. Đang chờ Chuyên viên BI kiểm duyệt.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 22:11:05"
+    },
+    {
+      "time": "22:10:56 17/11/2026",
+      "stage": "BƯỚC 2 & 3: LÀM SẠCH LẦN #1",
+      "detail": "Đã chạy tự động bộ quy tắc làm sạch trên file \"sample_retail_dirty.csv\". Xử lý 57 lỗi, Điểm chất lượng tăng từ 66% lên 100%. Đang chờ Chuyên viên BI kiểm duyệt.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 22:10:56"
+    },
+    {
+      "time": "21:55:28 17/11/2026",
+      "stage": "BƯỚC 2 & 3: LÀM SẠCH LẦN #1",
+      "detail": "Đã chạy tự động bộ quy tắc làm sạch trên file \"sample_retail_dirty.csv\". Xử lý 57 lỗi, Điểm chất lượng tăng từ 66% lên 100%. Đang chờ Chuyên viên BI kiểm duyệt.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 21:55:28"
+    },
+    {
+      "time": "21:55:04 17/11/2026",
+      "stage": "BƯỚC 2 & 3: LÀM SẠCH LẦN #1",
+      "detail": "Đã chạy tự động bộ quy tắc làm sạch trên file \"sample_retail_dirty.csv\". Xử lý 57 lỗi, Điểm chất lượng tăng từ 66% lên 100%. Đang chờ Chuyên viên BI kiểm duyệt.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 21:55:04"
+    },
+    {
+      "time": "10:10:32 17/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: ĐẠT YÊU CẦU (CÓ ➔ XUẤT BÁO CÁO)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu Kết quả Phân tích & Insight (Điểm đánh giá: 5.0/5.0 ⭐). Nhận xét: Báo cáo sâu sắc, số liệu chính xác, đủ điều kiện xuất bản.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 10:10:32"
+    },
+    {
+      "time": "10:10:26 17/11/2026",
+      "stage": "CỔNG KIỂM DUYỆT #1: PHÊ DUYỆT (CÓ HỢP LỆ)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã xác nhận bộ dữ liệu sạch hợp lệ (12 bản ghi, Điểm chất lượng: 100/100). Ghi chú: Đạt chuẩn đưa vào phân tích BI.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 10:10:26"
+    },
+    {
+      "time": "10:10:20 17/11/2026",
+      "stage": "BƯỚC 2: LÀM SẠCH DỮ LIỆU",
+      "detail": "Hoàn tất chạy Pipeline làm sạch: 13 dòng gốc -> 12 dòng sạch. Đã tự động xử lý 24 lỗi. Điểm chất lượng tăng từ 51 lên 100/100.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 10:10:20"
+    },
+    {
+      "time": "10:09:47 17/11/2026",
+      "stage": "BƯỚC 1: NHẬP DỮ LIỆU",
+      "detail": "Đã nạp bộ dữ liệu \"Chiến dịch Marketing Đa kênh (Marketing ROI)\" (13 dòng × 11 cột). Điểm chất lượng ban đầu: 51/100.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 10:09:47"
+    },
+    {
+      "time": "10:09:46 17/11/2026",
+      "stage": "BƯỚC 1: NHẬP DỮ LIỆU",
+      "detail": "Đã nạp bộ dữ liệu \"Nhân sự & Lương thưởng (HR & Payroll)\" (16 dòng × 11 cột). Điểm chất lượng ban đầu: 55/100.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 10:09:46"
+    },
+    {
+      "time": "10:09:11 17/11/2026",
+      "stage": "CỔNG ĐÁNH GIÁ #2: ĐẠT YÊU CẦU (CÓ ➔ XUẤT BÁO CÁO)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã nghiệm thu Kết quả Phân tích & Insight (Điểm đánh giá: 5.0/5.0 ⭐). Nhận xét: Báo cáo sâu sắc, số liệu chính xác, đủ điều kiện xuất bản.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 10:09:11"
+    },
+    {
+      "time": "10:09:02 17/11/2026",
+      "stage": "CỔNG KIỂM DUYỆT #1: PHÊ DUYỆT (CÓ HỢP LỆ)",
+      "detail": "Chuyên viên \"Nguyễn Phương Yến Nhi (Chuyên viên BI)\" đã xác nhận bộ dữ liệu sạch hợp lệ (30 bản ghi, Điểm chất lượng: 100/100). Ghi chú: Đạt chuẩn đưa vào phân tích BI.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "approve",
+      "server_time": "2026-11-17 10:09:02"
+    },
+    {
+      "time": "10:08:53 17/11/2026",
+      "stage": "BƯỚC 2: LÀM SẠCH DỮ LIỆU",
+      "detail": "Hoàn tất chạy Pipeline làm sạch: 32 dòng gốc -> 30 dòng sạch. Đã tự động xử lý 57 lỗi. Điểm chất lượng tăng từ 64 lên 100/100.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 10:08:53"
+    },
+    {
+      "time": "10:08:37 17/11/2026",
+      "stage": "BƯỚC 1: NHẬP DỮ LIỆU",
+      "detail": "Đã nạp bộ dữ liệu \"Bán lẻ & TMĐT (Retail Sales)\" (32 dòng × 13 cột). Điểm chất lượng ban đầu: 64/100.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 10:08:37"
+    },
+    {
+      "time": "10:08:19 17/11/2026",
+      "stage": "BƯỚC 1: NHẬP DỮ LIỆU",
+      "detail": "Đã nạp bộ dữ liệu \"Bán lẻ & TMĐT (Retail Sales)\" (32 dòng × 13 cột). Điểm chất lượng ban đầu: 64/100.",
+      "reviewer": "Nguyễn Phương Yến Nhi (Chuyên viên BI)",
+      "type": "info",
+      "server_time": "2026-11-17 10:08:19"
+    }
+  ]
+}
